@@ -27,22 +27,22 @@ class Controller():
                     print("gauche:" + response[1])
                     self.model.gauche()
                     self.actualiserGrille()
-                    self.view.window.after(50, repeat)
+                    self.view.window.after(10, repeat)
                 elif(mouvement == "droite"):
                     print("droite:" + response[1])
                     self.model.droite()
                     self.actualiserGrille()
-                    self.view.window.after(50, repeat)
+                    self.view.window.after(10, repeat)
                 elif(mouvement == "bas"):
                     print("bas:" + response[1])
                     self.model.bas()
                     self.actualiserGrille()
-                    self.view.window.after(50, repeat)
+                    self.view.window.after(10, repeat)
                 else:
                     print("haut:" + response[1])
                     self.model.haut()
                     self.actualiserGrille()
-                    self.view.window.after(50, repeat)
+                    self.view.window.after(10, repeat)
         repeat()
 
     def restart(self):
