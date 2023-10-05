@@ -158,6 +158,13 @@ class Model():
         self.apparition(self.grille)
         self.jeu=True
     
+
+    def same(self, grille1, grille2):
+        for i in range(16):
+            if(grille1[i] != grille2[i]):
+                return False
+        return True
+    
     def mouvementVirtuel(self, grille, turn, coup_avance):
         grille_virtuelle = [None]*16
         for i in range(16):
@@ -185,10 +192,12 @@ class Model():
                         gauche_f[1] += grille_virtuelle[k-l]*2/(turn+1)
                         self.fusion(k-l, k-l+1, grille_virtuelle)
             i += 1
-        if(turn < coup_avance):
+        if(turn < coup_avance and not self.same(grille, grille_virtuelle)):
             next_turn = self.mouvementVirtuel(grille_virtuelle, turn+1, coup_avance)
-            print("gauche next turn: ", next_turn[1], " this turn: ", gauche_f[1])
+            # print("gauche next turn: ", next_turn[1], " this turn: ", gauche_f[1])
             gauche_f[1] += next_turn[1]
+            if(turn == 1):
+                gauche_f[1] += 1
         for i in range(16):
             grille_virtuelle[i] = grille[i]
 
@@ -208,12 +217,12 @@ class Model():
                     if(k+l<=15 and k+l-1>=0 and grille_virtuelle[k+l] == grille_virtuelle[k+l-1] and grille_virtuelle[k+l] != " "):
                         droite_f[1] += grille_virtuelle[k+l]*2/(turn+1)
                         self.fusion(k+l, k+l-1, grille_virtuelle)
-        if(turn < coup_avance):
-            if(turn == 0 and droite_f[1] > 0):
-                first_right = True
+        if(turn < coup_avance and not self.same(grille, grille_virtuelle)):
             next_turn = self.mouvementVirtuel(grille_virtuelle, turn+1, coup_avance)
-            print("droite next turn: ", next_turn[1], " this turn: ", droite_f[1])
+            # print("droite next turn: ", next_turn[1], " this turn: ", droite_f[1])
             droite_f[1] += next_turn[1]
+            if(turn == 1):
+                droite_f[1] += 1
         for i in range(16):
             grille_virtuelle[i] = grille[i]
 
@@ -233,10 +242,12 @@ class Model():
                     if(k-l<=15 and k-l-4>=0 and grille_virtuelle[k-l] == grille_virtuelle[k-l-4] and grille_virtuelle[k-l] != " "):
                         haut_f[1] += grille_virtuelle[k-l]*2/(turn+1)
                         self.fusion(k-l, k-l-4, grille_virtuelle)
-        if(turn < coup_avance):
+        if(turn < coup_avance and not self.same(grille, grille_virtuelle)):
             next_turn = self.mouvementVirtuel(grille_virtuelle, turn+1, coup_avance)
-            print("haut next turn: ", next_turn[1], " this turn: ", haut_f[1])
+            # print("haut next turn: ", next_turn[1], " this turn: ", haut_f[1])
             haut_f[1] += next_turn[1]
+            if(turn == 1):
+                haut_f[1] += 1
         for i in range(16):
             grille_virtuelle[i] = grille[i]
 
@@ -257,10 +268,12 @@ class Model():
                     if(k+l<=15 and k+l-4>=0 and grille_virtuelle[k+l] == grille_virtuelle[k+l-4] and grille_virtuelle[k+l] != " "):
                         bas_f[1] += grille_virtuelle[k+l]*2/(turn+1)
                         self.fusion(k+l, k+l-4, grille_virtuelle)
-        if(turn < coup_avance):
+        if(turn < coup_avance and not self.same(grille, grille_virtuelle)):
             next_turn = self.mouvementVirtuel(grille_virtuelle, turn+1, coup_avance)
-            print("bas next turn: ", next_turn[1], " this turn: ", bas_f[1])
+            # print("bas next turn: ", next_turn[1], " this turn: ", bas_f[1])
             bas_f[1] += next_turn[1]
+            if(turn == 0):
+                bas_f[1] += 1
 
         gauche = gauche_f[1] 
         droite = droite_f[1] 

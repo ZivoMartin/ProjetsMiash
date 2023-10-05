@@ -5,6 +5,7 @@ class Controller():
     def __init__(self, model, view):
         self.model = model
         self.view = view
+        self.n = 1
         self.view.gauche.config(command=self.gauche)
         self.view.droite.config(command=self.droite)
         self.view.haut.config(command=self.haut)
@@ -15,6 +16,8 @@ class Controller():
         self.view.window.bind("<Down>", lambda event: self.basC(event))
         self.view.BoutonIa.config(command=self.ia)
         self.view.BoutonRestart.config(command=self.restart)
+        self.view.speed_down.config(command=self.speed_down)
+        self.view.speed_up.config(command=self.speed_up)
         self.actualiserGrille()
        
     def ia(self):
@@ -24,25 +27,29 @@ class Controller():
                 response[1] = str(response[1])
                 mouvement = response[0]
                 if(mouvement == 'gauche'):
-                    print("gauche:" + response[1])
+                    # print("gauche:" + response[1])
                     self.model.gauche()
                     self.actualiserGrille()
-                    self.view.window.after(10, repeat)
+                    self.view.window.after(self.n, repeat)
                 elif(mouvement == "droite"):
-                    print("droite:" + response[1])
+                    # print("droite:" + response[1])
                     self.model.droite()
                     self.actualiserGrille()
-                    self.view.window.after(10, repeat)
+                    self.view.window.after(self.n, repeat)
                 elif(mouvement == "bas"):
-                    print("bas:" + response[1])
+                    # print("bas:" + response[1])
                     self.model.bas()
                     self.actualiserGrille()
-                    self.view.window.after(10, repeat)
+                    self.view.window.after(self.n, repeat)
                 else:
-                    print("haut:" + response[1])
+                    # print("haut:" + response[1])
                     self.model.haut()
                     self.actualiserGrille()
-                    self.view.window.after(10, repeat)
+                    self.view.window.after(self.n, repeat)
+            else:
+                print(max(self.model.grille))
+                self.restart()
+                self.ia()
         repeat()
 
     def restart(self):
@@ -127,4 +134,11 @@ class Controller():
             else:
                 self.view.label[i].config(bg="#EDC22E")
            
-       
+    def speed_down(self):
+        self.n += 10
+    
+    def speed_up(self):
+        if(self.n > 10):
+            self.n -= 10
+        else:
+            n = 1
